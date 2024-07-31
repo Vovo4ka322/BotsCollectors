@@ -41,13 +41,13 @@ public class Base : MonoBehaviour
 
     public void Take(Resource resource)
     {
-        if (resource.GetComponent<Log>())
+        if (resource is Log)
             TakeLog(_amount);
 
-        if (resource.GetComponent<Stone>())
+        if (resource is Stone)
             TakeStone(_amount);
 
-        if (resource.GetComponent<Gold>())
+        if (resource is Gold)
             TakeGold(_amount);
 
         Destroy(resource.gameObject);

@@ -14,18 +14,13 @@ public class BotMover : MonoBehaviour
             return;
 
         if (_bot.IsResourceTaken)
-            MoveToBase();
+            Move(_bot.Base.transform);       
         else
-            MoveToResource();
+            Move(_bot.Resource.transform);
     }
 
-    public void MoveToResource()
+    private void Move(Transform target)
     {
-        transform.position = Vector3.MoveTowards(transform.position, _bot.Resource.transform.position, _moveSpeed * Time.deltaTime);
-    }
-
-    public void MoveToBase()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, _bot.Base.transform.position, _moveSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, target.position, _moveSpeed * Time.deltaTime);
     }
 }

@@ -7,17 +7,32 @@ using UnityEngine;
 public class Scanner : MonoBehaviour
 {
     [SerializeField]private float _findingRadius;
+    [SerializeField]private LayerMask _resource;
+
+    private int _timeToFindResource = 1;
 
     public event Action<Resource> Found;
 
-    private void Update()
+    private void Start()
     {
-        Detecte();
+        StartCoroutine(Detecter());
     }
 
+    private IEnumerator Detecter()
+    {
+        WaitForSeconds timeForFind = new(_timeToFindResource);
+
+        while (enabled)
+        {
+            Detecte();
+
+            yield return timeForFind;
+        }
+    }
+    
     private void Detecte()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, _findingRadius);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, _findingRadius, _resource);
 
         for (int i = 0; i < colliders.Length; i++)
         {

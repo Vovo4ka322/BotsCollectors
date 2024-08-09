@@ -8,22 +8,12 @@ public class Base : MonoBehaviour
 {
     [SerializeField] private Scanner _scanner;
     [SerializeField] private Bot[] _bots;
-    [SerializeField] private List<Bot> _activeBots;
 
-    private int _amount = 1;
-
-    public int GoldValue {  get; private set; }
-
-    public int LogValue { get; private set; }
-
-    public int StoneValue { get; private set; }
-
-
-    public event Action<int, int, int> Taken;
+    private Dictionary<string, Storage> _resourcesStoragies = new();
 
     private void Start()
     {
-        foreach(Bot bot in _bots)
+        foreach (Bot bot in _bots)
         {
             bot.SetBase(this);
         }
@@ -39,46 +29,29 @@ public class Base : MonoBehaviour
         _scanner.Found -= OnResourceFound;
     }
 
+    public void Init(IEnumerable<Storage> storagies)
+    {
+        foreach (Storage storage in storagies)
+        {
+            _resourcesStoragies.Add(storage.ResourceType, storage);
+        }
+    }
+
     public void Take(Resource resource)
     {
-        if (resource is Log)
-            TakeLog(_amount);
-
-        if (resource is Stone)
-            TakeStone(_amount);
-
-        if (resource is Gold)
-            TakeGold(_amount);
+        _resourcesStoragies[resource.GetType().Name].IncreaseQuantity();
 
         Destroy(resource.gameObject);
     }
 
-    private void TakeGold(int amount)
-    {
-        GoldValue += amount;
-        Taken?.Invoke(GoldValue, LogValue, StoneValue);
-    }
-
-    private void TakeLog(int amount)
-    {
-        LogValue += amount;
-        Taken?.Invoke(GoldValue, LogValue, StoneValue);
-    }
-
-    private void TakeStone(int amount)
-    {
-        StoneValue += amount;
-        Taken?.Invoke(GoldValue, LogValue, StoneValue);
-    }
-
     private void OnResourceFound(Resource resource)
     {
-        var isResourceCollecting = _bots.Any(bot => bot.Resource == resource);
+        bool isResourceCollecting = _bots.Any(bot => bot.Resource == resource);
 
         if (isResourceCollecting)
             return;
 
-        var bot = _bots.FirstOrDefault(bot => bot.IsCollecting == false);
+        Bot bot = _bots.FirstOrDefault(bot => bot.IsCollecting == false);
 
         if (bot == null)
             return;

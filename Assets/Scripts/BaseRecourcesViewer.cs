@@ -5,30 +5,27 @@ using TMPro;
 
 public class BaseRecourcesViewer : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _logAmount;
-    [SerializeField] private TextMeshProUGUI _goldAmount;
-    [SerializeField] private TextMeshProUGUI _stoneAmount;
-    [SerializeField] private Base _base;
+    [SerializeField] private TMP_Text _resourceAmount;
 
-    private void OnEnable()
+    private Storage _storage;
+
+    private void Start()
     {
-        _base.Taken += AmountChanged;
+        _storage.AmountChanged += AmountChanged;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        _base.Taken -= AmountChanged;
+        _storage.AmountChanged -= AmountChanged;
     }
 
-    private void AmountChanged(int gold, int log, int stone)
+    public void Init(Storage storage)
     {
-        Change(_goldAmount, gold);
-        Change(_logAmount, log);
-        Change(_stoneAmount, stone);
+        _storage = storage;
     }
 
-    private void Change(TextMeshProUGUI text, int value)
+    private void AmountChanged(int value)
     {
-        text.text = value.ToString();
+        _resourceAmount.text = value.ToString();
     }
 }

@@ -11,12 +11,12 @@ public class BaseRecourcesViewer : MonoBehaviour
 
     private void Start()
     {
-        _storage.AmountChanged += AmountChanged;
+        _storage.AmountChanged += OnChanged;
     }
 
     private void OnDestroy()
     {
-        _storage.AmountChanged -= AmountChanged;
+        _storage.AmountChanged -= OnChanged;
     }
 
     public void Init(Storage storage)
@@ -24,7 +24,7 @@ public class BaseRecourcesViewer : MonoBehaviour
         _storage = storage;
     }
 
-    private void AmountChanged(int value)
+    private void OnChanged(int value)
     {
         _resourceAmount.text = value.ToString();
     }

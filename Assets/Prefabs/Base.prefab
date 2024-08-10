@@ -295,7 +295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _placeForSeat: {fileID: 1255746709096916724}
-  <BotMover>k__BackingField: {fileID: 2975123540400919075}
+  <Mover>k__BackingField: {fileID: 2975123540400919075}
 --- !u!114 &2975123540400919075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,7 +309,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 7
-  _bot: {fileID: 6184150378473525530}
 --- !u!1 &2011908320658376978
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,7 +601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _placeForSeat: {fileID: 2320076627254144022}
-  <BotMover>k__BackingField: {fileID: 1735606060275914945}
+  <Mover>k__BackingField: {fileID: 1735606060275914945}
 --- !u!114 &1735606060275914945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,7 +615,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 7
-  _bot: {fileID: 7245548109306928120}
 --- !u!1 &3038126653193724724
 GameObject:
   m_ObjectHideFlags: 0
@@ -1532,7 +1530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _placeForSeat: {fileID: 6420298451216695552}
-  <BotMover>k__BackingField: {fileID: 7007027687406089687}
+  <Mover>k__BackingField: {fileID: 7007027687406089687}
 --- !u!114 &7007027687406089687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1546,7 +1544,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 7
-  _bot: {fileID: 2136590336436631278}
 --- !u!1 &7088012215979558080
 GameObject:
   m_ObjectHideFlags: 0

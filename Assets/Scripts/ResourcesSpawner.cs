@@ -19,7 +19,7 @@ public class ResourcesSpawner : MonoBehaviour
 
     public void Spawn()
     {
-        Instantiate(_resources[CreateIndex(_resources)], _spawnPoints[CreateIndex(_spawnPoints)].position, Quaternion.identity);
+        Instantiate(_resources[UnityEngine.Random.Range(0, _resources.Length)], _spawnPoints[UnityEngine.Random.Range(0, _spawnPoints.Length)].position, Quaternion.identity);
     }
 
     public void Init(Resource[] resources)
@@ -37,12 +37,5 @@ public class ResourcesSpawner : MonoBehaviour
 
             yield return timeToSpawn;
         }
-    }
-
-    private int CreateIndex<T>(T[] array)
-    {
-        _randomNumber = UnityEngine.Random.Range(0, array.Length);
-
-        return _randomNumber;
     }
 }

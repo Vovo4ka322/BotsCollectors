@@ -7,7 +7,7 @@ public class Bot : MonoBehaviour
 {
     [SerializeField] private Transform _placeForSeat;
 
-    [field: SerializeField] public BotMover BotMover { get; private set; }
+    [field: SerializeField] public BotMover Mover { get; private set; }
 
     public Base Base { get; private set; }
 
@@ -40,6 +40,17 @@ public class Bot : MonoBehaviour
             Resource = null;
             IsResourceTaken = false;           
         }
+    }
+
+    private void Update()
+    {
+        if (IsCollecting == false)
+            return;
+
+        if (IsResourceTaken)
+            Mover.Move(Base.transform);
+        else
+            Mover.Move(Resource.transform);
     }
 
     public void SetBase(Base @base)

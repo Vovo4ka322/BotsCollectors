@@ -11,7 +11,7 @@ public class Scanner : MonoBehaviour
 
     private int _timeToFindResource = 1;
 
-    public event Action<Resource> Found;
+    public event Action<List<Resource>> Found;
 
     private void Start()
     {
@@ -36,8 +36,13 @@ public class Scanner : MonoBehaviour
 
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (colliders[i].TryGetComponent<Resource>(out Resource resources))
+            if (colliders[i].TryGetComponent<Resource>(out Resource resource))
             {
+                List<Resource> resources = new()
+                {
+                    resource
+                };
+
                 Found?.Invoke(resources); 
             }
         }

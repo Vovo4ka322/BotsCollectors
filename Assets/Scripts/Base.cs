@@ -44,18 +44,21 @@ public class Base : MonoBehaviour
         Destroy(resource.gameObject);
     }
 
-    private void OnResourceFound(Resource resource)
+    private void OnResourceFound(List<Resource> resources)
     {
-        bool isResourceCollecting = _bots.Any(bot => bot.Resource == resource);
+        foreach (Resource resource in resources)
+        {
+            bool isResourceCollecting = _bots.Any(bot => bot.Resource == resource);
 
-        if (isResourceCollecting)
-            return;
+            if (isResourceCollecting)
+                return;
 
-        Bot bot = _bots.FirstOrDefault(bot => bot.IsCollecting == false);
+            Bot bot = _bots.FirstOrDefault(bot => bot.IsCollecting == false);
 
-        if (bot == null)
-            return;
+            if (bot == null)
+                return;
 
-        bot.Collect(resource);
+            bot.Collect(resource);
+        }
     }
 }

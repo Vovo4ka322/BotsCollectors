@@ -7,11 +7,11 @@ using UnityEngine;
 public class Scanner : MonoBehaviour
 {
     [SerializeField]private float _findingRadius;
-    [SerializeField]private LayerMask _resource;
+    [SerializeField]private LayerMask _layerOfResource;
 
     private int _timeToFindResource = 1;
 
-    public event Action<List<Resource>> Found;
+    public event Action<Resource> Found;
 
     private void Start()
     {
@@ -32,18 +32,13 @@ public class Scanner : MonoBehaviour
     
     private void Detecte()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, _findingRadius, _resource);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, _findingRadius, _layerOfResource);
 
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].TryGetComponent<Resource>(out Resource resource))
             {
-                List<Resource> resources = new()
-                {
-                    resource
-                };
-
-                Found?.Invoke(resources); 
+                Found?.Invoke(resource); 
             }
         }
     }

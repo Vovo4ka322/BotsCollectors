@@ -17,14 +17,14 @@ public class ResourcesSpawner : MonoBehaviour
         StartCoroutine(Spawner());
     }
 
-    public void Spawn()
-    {
-        Instantiate(_resources[UnityEngine.Random.Range(0, _resources.Length)], _spawnPoints[UnityEngine.Random.Range(0, _spawnPoints.Length)].position, Quaternion.identity);
-    }
-
     public void Init(Resource[] resources)
     {
         _resources = resources;
+    }
+
+    private void Spawn()
+    {
+        Instantiate(_resources[UnityEngine.Random.Range(0, _resources.Length)], _spawnPoints[UnityEngine.Random.Range(0, _spawnPoints.Length)].position, Quaternion.identity);
     }
 
     private IEnumerator Spawner()

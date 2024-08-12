@@ -19,11 +19,11 @@ public class BootStrap : MonoBehaviour
 
     private void Awake()
     {
-        Storage[] storagies = new Storage[_resources.Length];
+        Slot[] storagies = new Slot[_resources.Length];
 
         for (int i = 0; i < _resources.Length; i++)
         {
-            Storage storage = new(_resources[i]);
+            Slot storage = new(_resources[i]);
             _resourceVoiewers[i].Init(storage);
 
             storagies[i] = storage;          

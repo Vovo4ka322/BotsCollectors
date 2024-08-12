@@ -7,7 +7,7 @@ public class BaseRecourcesViewer : MonoBehaviour
 {
     [SerializeField] private TMP_Text _resourceAmount;
 
-    private Storage _storage;
+    private Slot _storage;
 
     private void Start()
     {
@@ -19,7 +19,7 @@ public class BaseRecourcesViewer : MonoBehaviour
         _storage.AmountChanged -= OnChanged;
     }
 
-    public void Init(Storage storage)
+    public void Init(Slot storage)
     {
         _storage = storage;
     }

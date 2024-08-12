@@ -9,14 +9,14 @@ public class BaseSpawner : MonoBehaviour
 {
     [SerializeField] private Base _basePrefab;
 
-    private IEnumerable<Storage> _storagies;
+    private IEnumerable<Slot> _storagies;
 
     private void Start()
     {
         Spawn(transform.position);
     }
 
-    public void Init(IEnumerable<Storage> storagies)
+    public void Init(IEnumerable<Slot> storagies)
     {
         _storagies = storagies;
     }

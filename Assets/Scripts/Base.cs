@@ -9,7 +9,7 @@ public class Base : MonoBehaviour
     [SerializeField] private Scanner _scanner;
     [SerializeField] private Bot[] _bots;
 
-    private Dictionary<string, Storage> _resourcesStoragies = new();
+    private Dictionary<string, Slot> _resourcesStoragies = new();
 
     private void Start()
     {
@@ -29,9 +29,9 @@ public class Base : MonoBehaviour
         _scanner.Found -= OnResourceFound;
     }
 
-    public void Init(IEnumerable<Storage> storagies)
+    public void Init(IEnumerable<Slot> storagies)
     {
-        foreach (Storage storage in storagies)
+        foreach (Slot storage in storagies)
         {
             _resourcesStoragies.Add(storage.ResourceType, storage);
         }
@@ -44,10 +44,8 @@ public class Base : MonoBehaviour
         Destroy(resource.gameObject);
     }
 
-    private void OnResourceFound(List<Resource> resources)
+    private void OnResourceFound(Resource resource)
     {
-        foreach (Resource resource in resources)
-        {
             bool isResourceCollecting = _bots.Any(bot => bot.Resource == resource);
 
             if (isResourceCollecting)
@@ -59,6 +57,5 @@ public class Base : MonoBehaviour
                 return;
 
             bot.Collect(resource);
-        }
     }
 }

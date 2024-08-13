@@ -9,7 +9,6 @@ public class ResourcesSpawner : MonoBehaviour
     [SerializeField] private Transform[] _spawnPoints;
     private Resource[] _resources;
 
-    private int _randomNumber;
     private int _timeToSpawn = 5;
 
     private void Start()

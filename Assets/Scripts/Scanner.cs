@@ -6,12 +6,14 @@ using UnityEngine;
 
 public class Scanner : MonoBehaviour
 {
-    [SerializeField]private float _findingRadius;
-    [SerializeField]private LayerMask _layerOfResource;
+    [SerializeField] private float _findingRadius;
+    [SerializeField] private LayerMask _layerOfResource;
 
     private int _timeToFindResource = 1;
 
-    public event Action<Resource> Found;
+    public List<Resource> _resources { get; private set; } = new List<Resource>();
+
+    public event Action<List<Resource>> Found;
 
     private void Start()
     {
@@ -20,7 +22,7 @@ public class Scanner : MonoBehaviour
 
     private IEnumerator Detecter()
     {
-        WaitForSeconds timeForFind = new(_timeToFindResource);
+        WaitForSeconds timeForFind = new WaitForSeconds(_timeToFindResource);
 
         while (enabled)
         {
@@ -29,7 +31,7 @@ public class Scanner : MonoBehaviour
             yield return timeForFind;
         }
     }
-    
+
     private void Detecte()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, _findingRadius, _layerOfResource);
@@ -38,9 +40,17 @@ public class Scanner : MonoBehaviour
         {
             if (colliders[i].TryGetComponent<Resource>(out Resource resource))
             {
-                Found?.Invoke(resource); 
+                if (_resources.Contains(resource) == false)
+                    _resources.Add(resource);
             }
         }
+
+        Found?.Invoke(_resources);
+    }
+
+    public void Clear(Resource resource)
+    {
+        _resources.Remove(resource);
     }
 
     private void OnDrawGizmos()

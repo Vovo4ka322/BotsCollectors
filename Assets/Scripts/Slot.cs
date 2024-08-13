@@ -17,7 +17,7 @@ public class Slot
 
     public int Quantity { get; private set; }
 
-    public string ResourceType;
+    public string ResourceType { get; private set; }
 
     public void IncreaseQuantity()
     {

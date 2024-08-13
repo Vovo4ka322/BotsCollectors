@@ -9,11 +9,11 @@ public class Bot : MonoBehaviour
 
     [field: SerializeField] public BotMover Mover { get; private set; }
 
-    public Base Base { get; private set; }
-
     public bool IsCollecting => Resource != null;
 
-    public bool IsResourceTaken { get; private set; }
+    private bool IsResourceTaken;
+
+    public Base Base { get; private set; }
 
     public Resource Resource { get; private set; }
 

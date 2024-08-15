@@ -11,8 +11,6 @@ public class Scanner : MonoBehaviour
 
     private int _timeToFindResource = 1;
 
-    public List<Resource> _resources { get; private set; } = new List<Resource>();
-
     public event Action<List<Resource>> Found;
 
     private void Start()
@@ -36,21 +34,18 @@ public class Scanner : MonoBehaviour
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, _findingRadius, _layerOfResource);
 
+        List<Resource> resources = new List<Resource>();
+
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].TryGetComponent<Resource>(out Resource resource))
             {
-                if (_resources.Contains(resource) == false)
-                    _resources.Add(resource);
+                if (resources.Contains(resource) == false)
+                    resources.Add(resource);
             }
         }
 
-        Found?.Invoke(_resources);
-    }
-
-    public void Clear(Resource resource)
-    {
-        _resources.Remove(resource);
+        Found?.Invoke(resources);
     }
 
     private void OnDrawGizmos()

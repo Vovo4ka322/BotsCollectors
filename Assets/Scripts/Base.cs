@@ -42,24 +42,23 @@ public class Base : MonoBehaviour
         _resourcesStoragies[resource.GetType().Name].IncreaseQuantity();
 
         Destroy(resource.gameObject);
-
-        _scanner.Clear(resource);
     }
 
     private void OnResourceFound(List<Resource> resources)
     {
-        Bot bot = _bots.FirstOrDefault(bot => bot.IsCollecting == false);
+        var isBisyResources = _bots.Where(bot => bot.IsCollecting).Select(bot => bot.Resource);
 
-        Resource resource = resources.FirstOrDefault(resource => resource.IsFree);
+        resources = resources.Except(isBisyResources).ToList();
 
-        if (bot == null)
-            return;
+        while (_bots.Any(bot => bot.IsCollecting == false) && resources.Count > 0)
+        {
+            Bot bot = _bots.First(bot => bot.IsCollecting == false);
 
-        if (resource == null)
-            return;
+            Resource resource = resources.First();
 
-        bot.Collect(resource);
+            bot.Collect(resource);
 
-        resource.Change();
+            resources.Remove(resource);
+        }
     }
 }

@@ -6,8 +6,10 @@ using UnityEngine;
 public class Bot : MonoBehaviour
 {
     [SerializeField] private Transform _placeForSeat;
+    [SerializeField] private Flag _flag;
 
     [field: SerializeField] public BotMover Mover { get; private set; }
+
 
     public bool IsCollecting => Resource != null;
 
@@ -16,6 +18,11 @@ public class Bot : MonoBehaviour
     public Base Base { get; private set; }
 
     public Resource Resource { get; private set; }
+
+    //private void OnEnable()
+    //{
+    //    _flag.Put += MoveToFlag;
+    //}
 
     private void OnTriggerEnter(Collider collider)
     {
@@ -38,7 +45,7 @@ public class Bot : MonoBehaviour
         {
             @base.Take(Resource);
             Resource = null;
-            IsResourceTaken = false;           
+            IsResourceTaken = false;
         }
     }
 

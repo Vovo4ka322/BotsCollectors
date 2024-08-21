@@ -11,14 +11,15 @@ public class BaseSpawner : MonoBehaviour
 
     private IEnumerable<Slot> _storagies;
 
-    private void Start()
-    {
-        Spawn(transform.position);
-    }
+    //private void Start()
+    //{
+    //    Spawn(transform.position);
+    //}
 
     public void Init(IEnumerable<Slot> storagies)
     {
         _storagies = storagies;
+        Spawn(transform.position);
     }
 
     private Base Spawn(Vector3 position)

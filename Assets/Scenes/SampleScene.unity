@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 492329904}
   - component: {fileID: 492329903}
   - component: {fileID: 492329907}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1039,6 +1039,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _basePrefab: {fileID: 8459315183784633522, guid: 948ece7c529af75489b2f8b2d7e0ed63, type: 3}
+  _emptyBase: {fileID: 5099752573553306480, guid: 571cec8ac613c86408f2ff1535a9a322, type: 3}
 --- !u!4 &1695698907
 Transform:
   m_ObjectHideFlags: 0

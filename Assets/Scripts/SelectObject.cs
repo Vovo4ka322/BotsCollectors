@@ -20,7 +20,7 @@ public class SelectObject : MonoBehaviour
 
         if (Physics.Raycast(ray, out raycastHit))
         {
-            if (raycastHit.collider.gameObject.TryGetComponent<ISelectable>(out ISelectable component))
+            if (raycastHit.collider.gameObject.TryGetComponent(out ISelectable component))
             {
                 if (_currentSelect == null && _currentSelect != component && Input.GetMouseButtonDown(0))
                 {
@@ -30,14 +30,10 @@ public class SelectObject : MonoBehaviour
                 }
             }
             else
-            {
                 CheckCurrentSelect();
-            }
         }
         else
-        {
             CheckCurrentSelect();
-        }
     }
 
     private void CheckCurrentSelect()

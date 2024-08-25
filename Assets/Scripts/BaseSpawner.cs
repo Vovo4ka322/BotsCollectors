@@ -8,24 +8,35 @@ using UnityEngine.UIElements;
 public class BaseSpawner : MonoBehaviour
 {
     [SerializeField] private Base _basePrefab;
+    [SerializeField] private Base _emptyBase;
 
     private IEnumerable<Slot> _storagies;
-
-    //private void Start()
-    //{
-    //    Spawn(transform.position);
-    //}
 
     public void Init(IEnumerable<Slot> storagies)
     {
         _storagies = storagies;
-        Spawn(transform.position);
+        SpawnFullBase(transform.position);
     }
 
-    private Base Spawn(Vector3 position)
+    public Base SpawnFullBase(Vector3 position)
     {
-        Base @base = Instantiate(_basePrefab, position, Quaternion.identity);
-        @base.Init(_storagies);
+        Base @base;
+        Spawn(position, out @base, _basePrefab);
+        return @base;
+    }
+
+    public Base SpawnEmptyBase(Vector3 position, Bot bot)
+    {
+        Base @base;
+        Spawn(position,out @base, _emptyBase);
+        @base.SetBot(bot);
+        return @base;
+    }
+
+    public Base Spawn(Vector3 position, out Base @base, Base basePrefab)
+    {
+        @base = Instantiate(basePrefab, position, Quaternion.identity);
+        @base.Init(_storagies, this);
         return @base;
     }
 }

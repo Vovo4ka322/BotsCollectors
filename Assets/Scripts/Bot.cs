@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -6,23 +7,22 @@ using UnityEngine;
 public class Bot : MonoBehaviour
 {
     [SerializeField] private Transform _placeForSeat;
-    [SerializeField] private Flag _flag;
+    [SerializeField] private Base _base;
 
     [field: SerializeField] public BotMover Mover { get; private set; }
 
+    private Transform _target;
+    private int _resourceLayer = 8;
 
     public bool IsCollecting => Resource != null;
 
     private bool IsResourceTaken;
 
-    public Base Base { get; private set; }
-
     public Resource Resource { get; private set; }
 
-    //private void OnEnable()
-    //{
-    //    _flag.Put += MoveToFlag;
-    //}
+    public bool IsBusy => _target != null || IsCollecting;
+
+    public event Action<Vector3, Bot> Reached;
 
     private void OnTriggerEnter(Collider collider)
     {
@@ -34,8 +34,20 @@ public class Bot : MonoBehaviour
             resource.transform.position = _placeForSeat.position;
             resource.transform.SetParent(_placeForSeat);
             IsResourceTaken = true;
+            _target = _base.transform;
 
             return;
+        }
+
+        if (collider.TryGetComponent(out Flag flag))
+        {
+            if (_target == flag.transform)
+            {
+                flag.CallAction();
+                Reached?.Invoke(flag.transform.position, this);
+                this.transform.SetParent(_base.transform);
+                _target = null;
+            }
         }
 
         if (IsResourceTaken == false)
@@ -45,28 +57,34 @@ public class Bot : MonoBehaviour
         {
             @base.Take(Resource);
             Resource = null;
+            _target = null;
             IsResourceTaken = false;
+            @base.Accept(this);
         }
     }
 
     private void Update()
     {
-        if (IsCollecting == false)
+        if (_target == null)
             return;
 
-        if (IsResourceTaken)
-            Mover.Move(Base.transform);
-        else
-            Mover.Move(Resource.transform);
+        Mover.Move(_target);
     }
 
     public void SetBase(Base @base)
     {
-        Base = @base;
+        _base = @base;
     }
 
     public void Collect(Resource resource)
     {
         Resource = resource;
+        _target = resource.transform;
+        resource.gameObject.layer = _resourceLayer;
+    }
+
+    public void SetTarget(Transform target)
+    {
+        _target = target;
     }
 }

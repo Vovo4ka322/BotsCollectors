@@ -13,7 +13,7 @@ public class Scanner : MonoBehaviour
 
     public event Action<List<Resource>> Found;
 
-    private void Start()
+    private void OnEnable()
     {
         StartCoroutine(Detecter());
     }

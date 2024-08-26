@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectObject : MonoBehaviour
+public class ObjectSelector : MonoBehaviour
 {
     private ISelectable _currentSelect;
 
@@ -30,10 +28,14 @@ public class SelectObject : MonoBehaviour
                 }
             }
             else
+            {
                 CheckCurrentSelect();
+            }
         }
         else
+        {
             CheckCurrentSelect();
+        }
     }
 
     private void CheckCurrentSelect()

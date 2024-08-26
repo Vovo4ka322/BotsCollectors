@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -9,14 +7,15 @@ public class BaseRecourcesViewer : MonoBehaviour
 
     private Slot _storage;
 
-    private void Start()
+    private void OnEnable()
     {
         _storage.AmountChanged += OnChanged;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        _storage.AmountChanged -= OnChanged;
+        if (_storage != null)
+            _storage.AmountChanged -= OnChanged;
     }
 
     public void Init(Slot storage)

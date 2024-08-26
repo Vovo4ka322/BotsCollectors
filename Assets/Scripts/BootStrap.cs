@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BootStrap : MonoBehaviour
+public class Bootstrap : MonoBehaviour
 {
     [SerializeField] private BaseSpawner _baseSpawner;
     [SerializeField] private ResourcesSpawner _resourcesSpawner;

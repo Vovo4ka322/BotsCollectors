@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class BaseSpawner : MonoBehaviour
 {
@@ -20,15 +16,13 @@ public class BaseSpawner : MonoBehaviour
 
     public Base SpawnFullBase(Vector3 position)
     {
-        Base @base;
-        Spawn(position, out @base, _basePrefab);
+        Spawn(position, out Base @base, _basePrefab);
         return @base;
     }
 
     public Base SpawnEmptyBase(Vector3 position, Bot bot)
     {
-        Base @base;
-        Spawn(position,out @base, _emptyBase);
+        Spawn(position, out Base @base, _emptyBase);
         @base.SetBot(bot);
         return @base;
     }

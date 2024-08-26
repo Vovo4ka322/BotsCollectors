@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Scanner : MonoBehaviour
@@ -11,14 +10,14 @@ public class Scanner : MonoBehaviour
 
     private int _timeToFindResource = 1;
 
-    public event Action<List<Resource>> Found;
+    public event Action<List<Resource>> Discovered;
 
     private void OnEnable()
     {
-        StartCoroutine(Detecter());
+        StartCoroutine(SearchResource());
     }
 
-    private IEnumerator Detecter()
+    private IEnumerator SearchResource()
     {
         WaitForSeconds timeForFind = new WaitForSeconds(_timeToFindResource);
 
@@ -38,14 +37,14 @@ public class Scanner : MonoBehaviour
 
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (colliders[i].TryGetComponent<Resource>(out Resource resource))
+            if (colliders[i].TryGetComponent(out Resource resource))
             {
                 if (resources.Contains(resource) == false)
                     resources.Add(resource);
             }
         }
 
-        Found?.Invoke(resources);
+        Discovered?.Invoke(resources);
     }
 
     private void OnDrawGizmos()

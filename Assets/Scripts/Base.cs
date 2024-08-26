@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -23,7 +21,7 @@ public class Base : MonoBehaviour, ISelectable
 
     private void OnEnable()
     {
-        _scanner.Found += OnResourceFound;
+        _scanner.Discovered += OnResourceFound;
         _flagCreator.Flag.Reached += Change;
 
         foreach (Bot bot in _bots)
@@ -36,7 +34,7 @@ public class Base : MonoBehaviour, ISelectable
 
     private void OnDisable()
     {
-        _scanner.Found -= OnResourceFound;
+        _scanner.Discovered -= OnResourceFound;
         _flagCreator.Flag.Reached -= Change;
 
         foreach (Bot bot in _bots)
@@ -139,7 +137,9 @@ public class Base : MonoBehaviour, ISelectable
                         isGoingToFlag = true;
                     }
                     else
+                    {
                         Debug.Log("Недостаточно денег");
+                    }
                 }
             }
         }

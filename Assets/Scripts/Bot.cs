@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bot : MonoBehaviour
@@ -26,7 +23,7 @@ public class Bot : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.TryGetComponent<Resource>(out Resource resource))
+        if (collider.TryGetComponent(out Resource resource))
         {
             if (resource != Resource)
                 return;
@@ -53,7 +50,7 @@ public class Bot : MonoBehaviour
         if (IsResourceTaken == false)
             return;
 
-        if (collider.TryGetComponent<Base>(out Base @base))
+        if (collider.TryGetComponent(out Base @base))
         {
             @base.Take(Resource);
             Resource = null;

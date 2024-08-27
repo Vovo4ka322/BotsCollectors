@@ -22,6 +22,11 @@ public class FlagCreator : MonoBehaviour
         _setFlagButton.onClick.AddListener(Activate);
     }
 
+    private void OnDisable()
+    {
+        _setFlagButton.onClick.RemoveListener(Activate);
+    }
+
     private void Update()
     {
         if (Flag.gameObject.activeSelf == false)

@@ -10,6 +10,11 @@ public class Slot
         ResourceType = _resource.GetType().Name;
     }
 
+    public Slot Clone()
+    {
+        return new Slot(_resource);
+    }
+
     public event Action<int> AmountChanged;
 
     public int Quantity { get; private set; }
@@ -18,7 +23,7 @@ public class Slot
 
     public void IncreaseQuantity()
     {
-        Quantity++;
+        Quantity ++;
         AmountChanged?.Invoke(Quantity);
     }
 
@@ -26,5 +31,5 @@ public class Slot
     {
         Quantity--;
         AmountChanged?.Invoke(Quantity);
-    }
+    }    
 }

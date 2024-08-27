@@ -1,17 +1,19 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class Bootstrap : MonoBehaviour
 {
     [SerializeField] private BaseSpawner _baseSpawner;
     [SerializeField] private ResourcesSpawner _resourcesSpawner;
+    [SerializeField] private ResourceViewerHolder _resourceViewerHolderPrefab;
     
-    [SerializeField] private BaseRecourcesViewer[] _resourceVoiewers;
+    //[SerializeField] private BaseRecourcesViewer[] _resourceVoiewers;
     [SerializeField] private Resource[] _resources;
 
     private void OnValidate()
     {
-        if (_resources.Length != _resourceVoiewers.Length)
+        if (_resources.Length != _resourceViewerHolderPrefab.BaseRecourcesViewers.Count())
             throw new Exception();
     }
 
@@ -22,12 +24,12 @@ public class Bootstrap : MonoBehaviour
         for (int i = 0; i < _resources.Length; i++)
         {
             Slot storage = new Slot(_resources[i]);
-            _resourceVoiewers[i].Init(storage);
+            //_resourceVoiewers[i].Init(storage);
 
             storagies[i] = storage;          
         }
 
         _resourcesSpawner.Init(_resources);
-        _baseSpawner.Init(storagies);
+        _baseSpawner.Init(storagies, _resourceViewerHolderPrefab);
     }
 }

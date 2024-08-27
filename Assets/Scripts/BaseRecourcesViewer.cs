@@ -21,6 +21,7 @@ public class BaseRecourcesViewer : MonoBehaviour
     public void Init(Slot storage)
     {
         _storage = storage;
+        enabled = true;
     }
 
     private void OnChanged(int value)

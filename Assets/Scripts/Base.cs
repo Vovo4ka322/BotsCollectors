@@ -12,9 +12,10 @@ public class Base : MonoBehaviour, ISelectable
     [SerializeField] private Material _baseColor;
     [SerializeField] private Button _button;
     [SerializeField] private FlagCreator _flagCreator;
-    [SerializeField] private BaseSpawner _spawner;
 
+    private BaseSpawner _spawner;
     private bool isGoingToFlag;
+    private int _resourceLayer = 8;
     private int _botPrice = 1;
     private int _basePrice = 5;
     private Dictionary<string, Slot> _resourcesStoragies = new();
@@ -26,7 +27,6 @@ public class Base : MonoBehaviour, ISelectable
 
         foreach (Bot bot in _bots)
         {
-
             bot.SetBase(this);
             bot.Reached += CreateNewBase;
         }
@@ -84,6 +84,8 @@ public class Base : MonoBehaviour, ISelectable
             Resource resource = resources.First();
 
             bot.Collect(resource);
+
+            resource.gameObject.layer = _resourceLayer;
 
             resources.Remove(resource);
         }

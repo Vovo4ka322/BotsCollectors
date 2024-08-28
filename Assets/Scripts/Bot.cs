@@ -5,11 +5,9 @@ public class Bot : MonoBehaviour
 {
     [SerializeField] private Transform _placeForSeat;
     [SerializeField] private Base _base;
-
-    [field: SerializeField] public BotMover Mover { get; private set; }
+    [SerializeField] public BotMover Mover;
 
     private Transform _target;
-    private int _resourceLayer = 8;
 
     public bool IsCollecting => Resource != null;
 
@@ -23,41 +21,14 @@ public class Bot : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.TryGetComponent(out Resource resource))
-        {
-            if (resource != Resource)
-                return;
+        TryGetComponentResource(collider);
 
-            resource.transform.position = _placeForSeat.position;
-            resource.transform.SetParent(_placeForSeat);
-            IsResourceTaken = true;
-            _target = _base.transform;
-
-            return;
-        }
-
-        if (collider.TryGetComponent(out Flag flag))
-        {
-            if (_target == flag.transform)
-            {
-                flag.CallAction();
-                Reached?.Invoke(flag.transform.position, this);
-                this.transform.SetParent(_base.transform);
-                _target = null;
-            }
-        }
+        TryGetComponentFlag(collider);
 
         if (IsResourceTaken == false)
             return;
 
-        if (collider.TryGetComponent(out Base @base))
-        {
-            @base.Take(Resource);
-            Resource = null;
-            _target = null;
-            IsResourceTaken = false;
-            @base.Accept(this);
-        }
+        TryGetComponentBase(collider);
     }
 
     private void Update()
@@ -77,11 +48,52 @@ public class Bot : MonoBehaviour
     {
         Resource = resource;
         _target = resource.transform;
-        resource.gameObject.layer = _resourceLayer;
     }
 
     public void SetTarget(Transform target)
     {
         _target = target;
+    }
+
+    private void TryGetComponentResource(Collider collider)
+    {
+        if (collider.TryGetComponent(out Resource resource))
+        {
+            if (resource != Resource)
+                return;
+
+            resource.transform.position = _placeForSeat.position;
+            resource.transform.SetParent(_placeForSeat);
+            resource.TurnOnKinematic();
+            IsResourceTaken = true;
+            _target = _base.transform;
+
+            return;
+        }
+    }
+
+    private void TryGetComponentFlag(Collider collider)
+    {
+        if (collider.TryGetComponent(out Flag flag))
+        {
+            if (_target == flag.transform)
+            {
+                flag.CallAction();
+                Reached?.Invoke(flag.transform.position, this);
+                _target = null;
+            }
+        }
+    }
+
+    private void TryGetComponentBase(Collider collider)
+    {
+        if (collider.TryGetComponent(out Base @base) && @base == _base)
+        {
+            @base.Take(Resource);
+            Resource = null;
+            _target = null;
+            IsResourceTaken = false;
+            @base.Accept(this);
+        }
     }
 }

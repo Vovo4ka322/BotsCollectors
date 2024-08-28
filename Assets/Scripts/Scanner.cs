@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Scanner : MonoBehaviour
@@ -31,16 +32,16 @@ public class Scanner : MonoBehaviour
 
     private void Detecte()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, _findingRadius, _layerOfResource);
+        Collider[] colliders = Physics.
+            OverlapSphere(transform.position, _findingRadius, _layerOfResource);
 
-        List<Resource> resources = new List<Resource>();
+        List<Resource> resources = new();
 
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].TryGetComponent(out Resource resource))
             {
-                if (resources.Contains(resource) == false)
-                    resources.Add(resource);
+                resources.Add(resource);
             }
         }
 

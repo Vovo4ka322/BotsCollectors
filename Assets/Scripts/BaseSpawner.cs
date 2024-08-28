@@ -22,6 +22,7 @@ public class BaseSpawner : MonoBehaviour
     {
         Base @base = Spawn(position, _emptyBase);
         @base.SetBot(bot);
+        bot.transform.SetParent(@base.transform);
         return @base;
     }
 

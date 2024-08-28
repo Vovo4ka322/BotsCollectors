@@ -23,7 +23,7 @@ public class Slot
 
     public void IncreaseQuantity()
     {
-        Quantity ++;
+        Quantity += 5;
         AmountChanged?.Invoke(Quantity);
     }
 

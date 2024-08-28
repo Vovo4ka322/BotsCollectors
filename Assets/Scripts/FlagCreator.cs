@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class FlagCreator : MonoBehaviour
 {
-    [SerializeField] private Button _setFlagButton;
     [SerializeField] private LayerMask _layerMaskPlatform;
 
     [field:SerializeField] public Flag Flag { get; private set; }
@@ -15,16 +14,6 @@ public class FlagCreator : MonoBehaviour
     private void Awake()
     {
         _camera = Camera.main;
-    }
-
-    public void OnEnable()
-    {
-        _setFlagButton.onClick.AddListener(Activate);
-    }
-
-    private void OnDisable()
-    {
-        _setFlagButton.onClick.RemoveListener(Activate);
     }
 
     private void Update()

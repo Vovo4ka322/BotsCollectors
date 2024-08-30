@@ -57,18 +57,13 @@ public class Bot : MonoBehaviour
 
     private void TryGetComponentResource(Collider collider)
     {
-        if (collider.TryGetComponent(out Resource resource))
+        if (collider.TryGetComponent(out Resource resource) && resource == Resource)
         {
-            if (resource != Resource)
-                return;
-
             resource.transform.position = _placeForSeat.position;
             resource.transform.SetParent(_placeForSeat);
             resource.TurnOnKinematic();
             IsResourceTaken = true;
             _target = _base.transform;
-
-            return;
         }
     }
 

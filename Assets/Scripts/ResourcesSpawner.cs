@@ -23,7 +23,8 @@ public class ResourcesSpawner : MonoBehaviour
 
     private void Spawn()
     {
-        Instantiate(_resources[UnityEngine.Random.Range(0, _resources.Length)], _spawnPoints[UnityEngine.Random.Range(0, _spawnPoints.Length)].position, Quaternion.identity);
+        Instantiate(_resources[UnityEngine.Random.Range(0, _resources.Length)],
+            _spawnPoints[UnityEngine.Random.Range(0, _spawnPoints.Length)].position, Quaternion.identity);
     }
 
     private IEnumerator Spawner()

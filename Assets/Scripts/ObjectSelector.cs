@@ -6,31 +6,33 @@ public class ObjectSelector : MonoBehaviour
 
     private void Update()
     {
-            UseRaycast();
+        UseRaycast();    
     }
 
     private void UseRaycast()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawRay(transform.position, transform.forward * 100f, Color.yellow);
-
-        if (Physics.Raycast(ray, out RaycastHit raycastHit))
+        if (Input.GetMouseButtonDown(0))
         {
-            if (raycastHit.collider.gameObject.TryGetComponent(out ISelectable component))
-            {
-                if (_currentSelect == null && _currentSelect != component && Input.GetMouseButtonDown(0))
-                {
-                    component.Deselect();
-                    _currentSelect = component;
-                    component.Select();
-                }
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                return;
+            if (Physics.Raycast(ray, out RaycastHit raycastHit))
+            {
+                if (raycastHit.collider.gameObject.TryGetComponent(out ISelectable component))
+                {
+                    if (_currentSelect == null && _currentSelect != component)
+                    {
+                        component.Deselect();
+                        _currentSelect = component;
+                        component.Select();
+                    }
+
+                    return;
+                }
             }
         }
-        else
+        else if (Input.GetMouseButtonDown(1))
         {
-            if (_currentSelect != null && Input.GetMouseButtonDown(1))
+            if (_currentSelect != null)
             {
                 _currentSelect.Deselect();
                 _currentSelect = null;

@@ -21,15 +21,21 @@ public class Slot
 
     public string ResourceType { get; private set; }
 
-    public void IncreaseQuantity()
+    public void IncreaseQuantity(int amount = 1)
     {
-        Quantity += 5;
+        if (amount < 0)
+            return;
+
+        Quantity += amount;
         AmountChanged?.Invoke(Quantity);
     }
 
-    public void DecreaseQuantity()
+    public void DecreaseQuantity(int amount = 1)
     {
-        Quantity--;
+        if (amount < 0)
+            return;
+
+        Quantity -= amount;
         AmountChanged?.Invoke(Quantity);
     }    
 }

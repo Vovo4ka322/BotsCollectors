@@ -641,6 +641,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5508160063179206457}
+  - component: {fileID: 5326118384140263717}
   - component: {fileID: 8459315183784633522}
   - component: {fileID: 6333695559674400943}
   - component: {fileID: 4386045841334533509}
@@ -675,6 +676,21 @@ Transform:
   - {fileID: 5771955116058235935}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5326118384140263717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5376334388729089380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8192a8f80c906943ab39a00ddda6c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvas: {fileID: 1706096359101703171}
+  _renderer: {fileID: 4386045841334533509}
+  _baseColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &8459315183784633522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -696,7 +712,7 @@ MonoBehaviour:
   _canvas: {fileID: 1706096359101703171}
   _baseColor: {fileID: 2100000, guid: 44d68d2e73aea7a4c97725aca7509ace, type: 2}
   _flagCreator: {fileID: 7218797252287469935}
-  _spawner: {fileID: 0}
+  _renderer: {fileID: 4386045841334533509}
 --- !u!65 &6333695559674400943
 BoxCollider:
   m_ObjectHideFlags: 0

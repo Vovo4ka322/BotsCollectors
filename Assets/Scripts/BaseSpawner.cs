@@ -8,6 +8,7 @@ public class BaseSpawner : MonoBehaviour
     [SerializeField] private Base _emptyBase;
 
     private ResourceViewerHolder _resourceViewerHolderPrefab;
+    private ResourceDataBase _resourceDataBase = new();
 
     private IEnumerable<Slot> _storagies;
 
@@ -39,7 +40,7 @@ public class BaseSpawner : MonoBehaviour
             baseRecourcesViewers[i].Init(newStoragies[i]);
         }
 
-        @base.Init(newStoragies, this);
+        @base.Init(newStoragies, this, _resourceDataBase);
         return @base;
     }
 }

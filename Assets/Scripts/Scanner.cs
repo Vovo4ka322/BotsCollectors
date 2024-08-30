@@ -24,9 +24,9 @@ public class Scanner : MonoBehaviour
 
         while (enabled)
         {
-            Detecte();
-
             yield return timeForFind;
+
+            Detecte();
         }
     }
 

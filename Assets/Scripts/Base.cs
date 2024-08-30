@@ -1,21 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
-public class Base : MonoBehaviour, ISelectable
+public class Base : MonoBehaviour
 {
     [SerializeField] private Scanner _scanner;
     [SerializeField] private List<Bot> _bots;
     [SerializeField] private Bot _botPrefab;
     [SerializeField] private Canvas _canvas;
     [SerializeField] private Material _baseColor;
-    [SerializeField] private Button _button;
     [SerializeField] private FlagCreator _flagCreator;
+    [SerializeField] private Renderer _renderer;
 
+    private ResourceDataBase _resourceDataBase;
     private BaseSpawner _spawner;
     private bool isGoingToFlag;
-    private int _resourceLayer = 8;
     private int _botPrice = 1;
     private int _basePrice = 5;
     private Dictionary<string, Slot> _resourcesStoragies = new();
@@ -43,7 +44,7 @@ public class Base : MonoBehaviour, ISelectable
         }
     }
 
-    public void Init(IEnumerable<Slot> slots, BaseSpawner baseSpawner)
+    public void Init(IEnumerable<Slot> slots, BaseSpawner baseSpawner, ResourceDataBase resourceDataBase)
     {
         foreach (Slot slot in slots)
         {
@@ -51,6 +52,7 @@ public class Base : MonoBehaviour, ISelectable
         }
 
         _spawner = baseSpawner;
+        _resourceDataBase = resourceDataBase;
     }
 
     public void SetBot(Bot bot)
@@ -67,28 +69,32 @@ public class Base : MonoBehaviour, ISelectable
     public void Take(Resource resource)
     {
         _resourcesStoragies[resource.GetType().Name].IncreaseQuantity();
-
+        _resourceDataBase.Remove(resource);
         Destroy(resource.gameObject);
     }
 
     private void OnResourceFound(List<Resource> resources)
     {
-        var isBisyResources = _bots.Where(bot => bot.IsCollecting).Select(bot => bot.Resource);
+        _resourceDataBase.Add(resources);
 
-        resources = resources.Except(isBisyResources).ToList();
-
-        while (_bots.Any(bot => bot.IsBusy == false) && resources.Count > 0)
+        foreach (Resource resource in resources)
         {
-            Bot bot = _bots.First(bot => bot.IsBusy == false);
+            if (_resourceDataBase.IsResourceBusy(resource) == false)
+            {
+                if (TryGetBot(out Bot bot) == false)
+                    return;
 
-            Resource resource = resources.First();
-
-            bot.Collect(resource);
-
-            resource.gameObject.layer = _resourceLayer;
-
-            resources.Remove(resource);
+                bot.Collect(resource);
+                _resourceDataBase.Reservate(resource);
+            }
         }
+    }
+
+    private bool TryGetBot(out Bot bot)
+    {
+        bot = _bots.FirstOrDefault(@bot => @bot.IsBusy == false);
+
+        return bot != null;
     }
 
     public void CreateNewBot()
@@ -96,19 +102,12 @@ public class Base : MonoBehaviour, ISelectable
         if (IsEnough(_botPrice))
         {
             foreach (var storage in _resourcesStoragies.Values)
-            {
-                storage.DecreaseQuantity();
-            }
+                storage.DecreaseQuantity(_botPrice);
 
             Bot newBot = Instantiate(_botPrefab, transform.position, Quaternion.identity);
             _bots.Add(newBot);
             newBot.SetBase(this);
-            newBot.transform.SetParent(this.transform);
-            Debug.Log("Бот куплен");
-        }
-        else
-        {
-            Debug.Log("No many");
+            newBot.transform.SetParent(transform);
         }
     }
 
@@ -119,54 +118,31 @@ public class Base : MonoBehaviour, ISelectable
 
     public void Accept(Bot bot)
     {
-        if (_flagCreator.Flag != null)
-        {
-            if (_flagCreator.Flag.gameObject.activeInHierarchy)
-            {
-                if (isGoingToFlag == false)
-                {
-                    if (IsEnough(_basePrice))
-                    {
-                        foreach (var storage in _resourcesStoragies.Values)
-                        {
-                            for (int i = 0; i < _basePrice; i++)
-                            {
-                                storage.DecreaseQuantity();
-                            }
-                        }
+        if (_flagCreator.Flag == null)
+            return;
 
-                        bot.SetTarget(_flagCreator.Flag.transform);
-                        isGoingToFlag = true;
-                    }
-                    else
-                    {
-                        Debug.Log("Недостаточно денег");
-                    }
-                }
-            }
-        }
+        if (_flagCreator.Flag.gameObject.activeInHierarchy == false)
+            return;
+
+        if (isGoingToFlag)
+            return;
+
+        if (IsEnough(_basePrice) == false)
+            return;
+
+        foreach (var storage in _resourcesStoragies.Values)
+            storage.DecreaseQuantity(_basePrice);
+
+        bot.SetTarget(_flagCreator.Flag.transform);
+        isGoingToFlag = true;
     }
 
     private bool IsEnough(int amount)
     {
         foreach (var storage in _resourcesStoragies.Values)
-        {
             if (storage.Quantity < amount)
                 return false;
-        }
 
         return true;
-    }
-
-    public void Select()
-    {
-        _canvas.gameObject.SetActive(true);
-        GetComponent<Renderer>().material.color = Color.red;
-    }
-
-    public void Deselect()
-    {
-        _canvas.gameObject.SetActive(false);
-        GetComponent<Renderer>().material.color = _baseColor.color;
     }
 }

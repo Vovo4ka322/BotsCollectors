@@ -11,7 +11,6 @@ public class Base : MonoBehaviour
     [SerializeField] private Bot _botPrefab;
     [SerializeField] private Material _baseColor;
     [SerializeField] private FlagCreator _flagCreator;
-    [SerializeField] private Renderer _renderer;
 
     private ResourceDataBase _resourceDataBase;
     private BaseSpawner _spawner;

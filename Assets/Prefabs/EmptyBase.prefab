@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5857443622433291330}
   - component: {fileID: 3828947091620403556}
   - component: {fileID: 4941880065868206080}
+  - component: {fileID: 6390237491763153320}
   m_Layer: 0
   m_Name: EmptyBase
   m_TagString: Untagged
@@ -58,10 +59,9 @@ MonoBehaviour:
   _scanner: {fileID: 6033156948166758322}
   _bots: []
   _botPrefab: {fileID: 688258285446698479, guid: add7c1dd8a4ff7a42906da0d48756d90, type: 3}
-  _canvas: {fileID: 2433209904430500594}
   _baseColor: {fileID: 2100000, guid: 44d68d2e73aea7a4c97725aca7509ace, type: 2}
   _flagCreator: {fileID: 4941880065868206080}
-  _spawner: {fileID: 0}
+  _renderer: {fileID: 5857443622433291330}
 --- !u!65 &3412515913932130670
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -149,6 +149,21 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   <Flag>k__BackingField: {fileID: 7360647900928615327}
+--- !u!114 &6390237491763153320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118285614130534245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8192a8f80c906943ab39a00ddda6c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvas: {fileID: 2433209904430500594}
+  _renderer: {fileID: 5857443622433291330}
+  _baseColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &2508252506973277809
 GameObject:
   m_ObjectHideFlags: 0

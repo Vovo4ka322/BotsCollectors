@@ -8,14 +8,13 @@ public class Bot : MonoBehaviour
     [SerializeField] public BotMover Mover;
 
     private Transform _target;
+    private bool IsResourceTaken;
 
     public bool IsCollecting => Resource != null;
 
-    private bool IsResourceTaken;
+    public bool IsBusy => _target != null || IsCollecting;
 
     public Resource Resource { get; private set; }
-
-    public bool IsBusy => _target != null || IsCollecting;
 
     public event Action<Vector3, Bot> Reached;
 

@@ -9,14 +9,13 @@ public class Base : MonoBehaviour
     [SerializeField] private Scanner _scanner;
     [SerializeField] private List<Bot> _bots;
     [SerializeField] private Bot _botPrefab;
-    [SerializeField] private Canvas _canvas;
     [SerializeField] private Material _baseColor;
     [SerializeField] private FlagCreator _flagCreator;
     [SerializeField] private Renderer _renderer;
 
     private ResourceDataBase _resourceDataBase;
     private BaseSpawner _spawner;
-    private bool isGoingToFlag;
+    private bool isBotComeToFlag;
     private int _botPrice = 1;
     private int _basePrice = 5;
     private Dictionary<string, Slot> _resourcesStoragies = new();
@@ -113,7 +112,7 @@ public class Base : MonoBehaviour
 
     private void Change()
     {
-        isGoingToFlag = false;
+        isBotComeToFlag = false;
     }
 
     public void Accept(Bot bot)
@@ -124,7 +123,7 @@ public class Base : MonoBehaviour
         if (_flagCreator.Flag.gameObject.activeInHierarchy == false)
             return;
 
-        if (isGoingToFlag)
+        if (isBotComeToFlag)
             return;
 
         if (IsEnough(_basePrice) == false)
@@ -134,7 +133,7 @@ public class Base : MonoBehaviour
             storage.DecreaseQuantity(_basePrice);
 
         bot.SetTarget(_flagCreator.Flag.transform);
-        isGoingToFlag = true;
+        isBotComeToFlag = true;
     }
 
     private bool IsEnough(int amount)

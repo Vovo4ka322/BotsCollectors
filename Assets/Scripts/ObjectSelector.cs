@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class ObjectSelector : MonoBehaviour
 {
+    private int _selectCommand = 0;
+    private int _deselectCommand = 1;
     private ISelectable _currentSelect;
 
     private void Update()
@@ -11,7 +13,7 @@ public class ObjectSelector : MonoBehaviour
 
     private void UseRaycast()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(_selectCommand))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -19,18 +21,16 @@ public class ObjectSelector : MonoBehaviour
             {
                 if (raycastHit.collider.gameObject.TryGetComponent(out ISelectable component))
                 {
-                    if (_currentSelect == null && _currentSelect != component)
+                    if (_currentSelect != component)
                     {
                         component.Deselect();
                         _currentSelect = component;
                         component.Select();
                     }
-
-                    return;
                 }
             }
         }
-        else if (Input.GetMouseButtonDown(1))
+        else if (Input.GetMouseButtonDown(_deselectCommand))
         {
             if (_currentSelect != null)
             {

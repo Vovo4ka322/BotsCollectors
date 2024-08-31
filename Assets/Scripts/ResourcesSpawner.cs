@@ -7,13 +7,13 @@ using UnityEngine;
 public class ResourcesSpawner : MonoBehaviour
 {
     [SerializeField] private Transform[] _spawnPoints;
-    private Resource[] _resources;
 
+    private Resource[] _resources;
     private int _timeToSpawn = 5;
 
     private void Start()
     {
-        StartCoroutine(Spawner());
+        StartCoroutine(Spawn());
     }
 
     public void Init(Resource[] resources)
@@ -21,19 +21,14 @@ public class ResourcesSpawner : MonoBehaviour
         _resources = resources;
     }
 
-    private void Spawn()
-    {
-        Instantiate(_resources[UnityEngine.Random.Range(0, _resources.Length)],
-            _spawnPoints[UnityEngine.Random.Range(0, _spawnPoints.Length)].position, Quaternion.identity);
-    }
-
-    private IEnumerator Spawner()
+    private IEnumerator Spawn()
     {
         WaitForSeconds timeToSpawn = new(_timeToSpawn);
 
         while (enabled)
         {
-            Spawn();
+            Instantiate(_resources[UnityEngine.Random.Range(0, _resources.Length)],
+            _spawnPoints[UnityEngine.Random.Range(0, _spawnPoints.Length)].position, Quaternion.identity);
 
             yield return timeToSpawn;
         }

@@ -14,7 +14,7 @@ public class Base : MonoBehaviour
 
     private ResourceDataBase _resourceDataBase;
     private BaseSpawner _spawner;
-    private bool isBotComeToFlag;
+    private bool _isBotComeToFlag;
     private int _botPrice = 1;
     private int _basePrice = 5;
     private Dictionary<string, Slot> _resourcesStoragies = new();
@@ -111,7 +111,7 @@ public class Base : MonoBehaviour
 
     private void Change()
     {
-        isBotComeToFlag = false;
+        _isBotComeToFlag = false;
     }
 
     public void Accept(Bot bot)
@@ -122,7 +122,7 @@ public class Base : MonoBehaviour
         if (_flagCreator.Flag.gameObject.activeInHierarchy == false)
             return;
 
-        if (isBotComeToFlag)
+        if (_isBotComeToFlag)
             return;
 
         if (IsEnough(_basePrice) == false)
@@ -132,7 +132,7 @@ public class Base : MonoBehaviour
             storage.DecreaseQuantity(_basePrice);
 
         bot.SetTarget(_flagCreator.Flag.transform);
-        isBotComeToFlag = true;
+        _isBotComeToFlag = true;
     }
 
     private bool IsEnough(int amount)

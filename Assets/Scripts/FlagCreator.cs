@@ -5,11 +5,11 @@ public class FlagCreator : MonoBehaviour
 {
     [SerializeField] private LayerMask _layerMaskPlatform;
 
-    [field:SerializeField] public Flag Flag { get; private set; }
-
     private Camera _camera;
     private Ray _ray;
+    private int _setFlag;
 
+    [field:SerializeField] public Flag Flag { get; private set; }
 
     private void Awake()
     {
@@ -57,7 +57,7 @@ public class FlagCreator : MonoBehaviour
 
     public void SetFlag()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(_setFlag))
         {
             _ray = _camera.ScreenPointToRay(Input.mousePosition);
 

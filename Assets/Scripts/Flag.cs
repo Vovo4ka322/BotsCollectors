@@ -15,7 +15,7 @@ public class Flag : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void CallAction()
+    public void CallReachedAction()
     {
         Deactivate();
         Reached?.Invoke();

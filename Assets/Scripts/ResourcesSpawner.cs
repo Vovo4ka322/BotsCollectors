@@ -23,14 +23,14 @@ public class ResourcesSpawner : MonoBehaviour
 
     private IEnumerator Spawn()
     {
-        WaitForSeconds timeToSpawn = new(_timeToSpawn);
+        WaitForSeconds wait = new(_timeToSpawn);
 
         while (enabled)
         {
             Instantiate(_resources[UnityEngine.Random.Range(0, _resources.Length)],
             _spawnPoints[UnityEngine.Random.Range(0, _spawnPoints.Length)].position, Quaternion.identity);
 
-            yield return timeToSpawn;
+            yield return wait;
         }
     }
 }

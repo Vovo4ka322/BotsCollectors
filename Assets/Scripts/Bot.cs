@@ -8,7 +8,9 @@ public class Bot : MonoBehaviour
     [SerializeField] public BotMover Mover;
 
     private Transform _target;
-    private bool IsResourceTaken;
+    private bool _isResourceTaken;
+
+    public event Action<Vector3, Bot> Reached;
 
     public bool IsCollecting => Resource != null;
 
@@ -16,15 +18,13 @@ public class Bot : MonoBehaviour
 
     public Resource Resource { get; private set; }
 
-    public event Action<Vector3, Bot> Reached;
-
     private void OnTriggerEnter(Collider collider)
     {
         TryGetComponentResource(collider);
 
         TryGetComponentFlag(collider);
 
-        if (IsResourceTaken == false)
+        if (_isResourceTaken == false)
             return;
 
         TryGetComponentBase(collider);
@@ -61,7 +61,7 @@ public class Bot : MonoBehaviour
             resource.transform.position = _placeForSeat.position;
             resource.transform.SetParent(_placeForSeat);
             resource.TurnOnKinematic();
-            IsResourceTaken = true;
+            _isResourceTaken = true;
             _target = _base.transform;
         }
     }
@@ -72,7 +72,7 @@ public class Bot : MonoBehaviour
         {
             if (_target == flag.transform)
             {
-                flag.CallAction();
+                flag.CallReachedAction();
                 Reached?.Invoke(flag.transform.position, this);
                 _target = null;
             }
@@ -86,7 +86,7 @@ public class Bot : MonoBehaviour
             @base.Take(Resource);
             Resource = null;
             _target = null;
-            IsResourceTaken = false;
+            _isResourceTaken = false;
             @base.Accept(this);
         }
     }
